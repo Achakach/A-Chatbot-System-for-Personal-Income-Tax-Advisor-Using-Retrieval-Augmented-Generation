@@ -1,0 +1,27 @@
+# ใช้ torch แบบ CPU (เล็กกว่าและใช้หน่วยความจำน้อยกว่าเวอร์ชัน CUDA มาก)
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# PDF Parsing & Structure Preservation
+pymupdf==2.0
+pymupdf4llm==2.0
+
+# Chunking Strategy
+langchain-text-splitters==1.1.3
+
+# Vector Database & Local Embeddings
+# chromadb ต้องเป็นเวอร์ชันเดียวกับที่สร้าง chroma_tax_db ไม่เช่นนั้นอาจเปิดฐานข้อมูลไม่ได้
+chromadb==1.5.9
+sentence-transformers==6.2.0
+transformers==5.20.2
+torch==2.14.1
+torchvision==0.29.1
+
+# LLM Gateway (OpenRouter / Ollama Cloud, OpenAI compatible)
+openai==3.37.0
+httpx==0.28.1
+
+# Environment Configuration
+python-dotenv==1.2.4
+
+# Web Chat Interface
+streamlit==1.66.1

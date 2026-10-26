@@ -1,0 +1,26 @@
+# Environment (API keys อยู่ที่นี่ ห้าม commit)
+.env
+# ไฟล์ env อื่นๆ เช่น .env.local หรือไฟล์สำรอง (แต่เก็บไฟล์ตัวอย่างไว้)
+.env.*
+!.env.example
+
+# Streamlit secrets (กรณีทดสอบ secrets บนเครื่อง)
+.streamlit/secrets.toml
+
+# ChromaDB: ต้อง commit ไปด้วยเพื่อให้แอปบน Streamlit Community Cloud ใช้ได้โดยไม่ต้องสร้างดัชนีใหม่
+# chroma_tax_db/
+
+# Chat history
+chat_history.json
+
+# Python cache & virtual environment
+__pycache__/
+*.pyc
+.venv/
+
+# Local Claude Code settings
+.claude/
+
+# Windows / OneDrive clutter
+Thumbs.db
+desktop.ini
