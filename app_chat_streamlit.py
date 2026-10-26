@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import hmac
 import streamlit as st
@@ -41,6 +42,12 @@ st.set_page_config(
     page_title="AI ที่ปรึกษาภาษีเงินได้บุคคลธรรมดา (Thai Tax RAG)",
     page_icon="⚖️",
     layout="wide"
+)
+
+# ตารางกว้างในส่วนเอกสารอ้างอิงให้เลื่อนดูในกรอบของตัวเอง แทนการดันทั้งหน้าให้เลื่อนแนวนอน
+st.markdown(
+    "<style>[data-testid='stExpander'] [data-testid='stMarkdownContainer'] { overflow-x: auto; }</style>",
+    unsafe_allow_html=True,
 )
 
 # 2. Load Environment Variables
@@ -233,6 +240,46 @@ def rewrite_query(history: list[dict], question: str, model: str) -> str:
     except Exception:
         return question
 
+TABLE_SEPARATOR = re.compile(r"^\|\s*:?-{3,}")
+
+def to_markdown_excerpt(text: str) -> str:
+    """เตรียมข้อความของท่อนเอกสารให้แสดงเป็น Markdown ในส่วนเอกสารอ้างอิง"""
+    # หัวข้อ (#) ใหญ่เกินไปในกล่องอ้างอิง จึงแสดงเป็นตัวหนาแทน
+    text = re.sub(
+        r"(?m)^#{1,6}\s*(.+)$",
+        lambda m: f"**{m.group(1).replace('**', '').strip()}**",
+        text,
+    )
+    # ตัวหนาที่มีช่องว่างติดเครื่องหมาย (เช่น "**300,000 **") Markdown จะไม่แสดงเป็นตัวหนา
+    text = re.sub(r"\*\*[ \t]*([^*\n]+?)[ \t]*\*\*", r"**\1**", text)
+    # เครื่องหมาย $ ใน Streamlit markdown คือการเริ่มสูตร LaTeX
+    text = text.replace("$", "\\$")
+
+    # ตารางที่ถูกตัดแบ่งกลางท่อนจะไม่มีแถวหัวตาราง จึงไม่แสดงเป็นตาราง
+    # เติมแถวหัวว่างให้ และเว้นบรรทัดก่อนตารางเพื่อให้ Markdown แยกตารางออกจากย่อหน้า
+    out, block = [], []
+
+    def flush_table():
+        if not block:
+            return
+        if out and out[-1].strip():
+            out.append("")
+        if not any(TABLE_SEPARATOR.match(line.strip()) for line in block):
+            cols = max(line.strip().strip("|").count("|") + 1 for line in block)
+            out.append("|" + " |" * cols)
+            out.append("|" + "---|" * cols)
+        out.extend(block)
+        block.clear()
+
+    for line in text.split("\n"):
+        if line.strip().startswith("|"):
+            block.append(line)
+        else:
+            flush_table()
+            out.append(line)
+    flush_table()
+    return "\n".join(out)
+
 def render_sources(sources: list[dict]):
     """แสดงเอกสารอ้างอิงจัดกลุ่มตามไฟล์ พร้อมเลขหน้าและคะแนนความเกี่ยวข้อง"""
     grouped: dict[str, list[dict]] = {}
@@ -250,7 +297,8 @@ def render_sources(sources: list[dict]):
                     details.append(f"ความเกี่ยวข้อง {src['score']:.0%}")
                 if details:
                     st.caption(" · ".join(details))
-                st.text(src["text"])
+                with st.container(border=True):
+                    st.markdown(to_markdown_excerpt(src["text"]))
             st.markdown("---")
 
 # 4. Sidebar Controls
