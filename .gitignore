@@ -24,3 +24,14 @@ __pycache__/
 # Windows / OneDrive clutter
 Thumbs.db
 desktop.ini
+
+# เก็บไว้บนเครื่องเท่านั้น (ไม่จำเป็นต่อการรันแอปที่ deploy)
+# เครื่องมือสร้างดัชนีและเอกสารต้นฉบับ
+app_rag_openrouter.py
+pdf_docs/
+# ไฟล์ประเมินผลและไฟล์เก่า
+evaluate_rag.py
+eval_questions.md
+rag_eval_report.json
+pdf_retrieve.py
+HANDOVER_ANTIGRAVITY.md
