@@ -1,0 +1,25 @@
+# ธีมของแอป (ใช้ทั้งบนเครื่องและ Streamlit Community Cloud ต้อง commit ไฟล์นี้ขึ้น GitHub)
+# หมายเหตุ: ฟอนต์โหลดจาก Google Fonts ผู้ใช้จึงส่งคำขอ (รวม IP) ไปที่ Google ด้วย
+
+[theme]
+base = "light"
+
+# ฟอนต์ไทย: Sarabun สำหรับเนื้อหา, IBM Plex Sans Thai สำหรับหัวข้อ (ถ้าโหลดไม่ได้จะใช้ sans-serif แทน)
+font = "Sarabun:https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap, sans-serif"
+headingFont = "'IBM Plex Sans Thai':https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@600&display=swap, sans-serif"
+
+# โทนสีน้ำเงินเข้มแบบเอกสารราชการ
+primaryColor = "#1E4E8C"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F3F6FA"
+textColor = "#1F2933"
+linkColor = "#1E4E8C"
+borderColor = "#D9E1EC"
+baseRadius = "medium"
+
+[theme.sidebar]
+backgroundColor = "#EEF3F9"
+
+[client]
+# ซ่อนเมนูนักพัฒนาของ Streamlit มุมขวาบน
+toolbarMode = "minimal"

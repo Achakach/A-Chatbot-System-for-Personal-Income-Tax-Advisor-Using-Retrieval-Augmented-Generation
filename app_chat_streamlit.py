@@ -306,9 +306,12 @@ if "messages" not in st.session_state:
 st.title("⚖️ ระบบสืบค้นและตอบคำถามกฎหมายภาษีอากร")
 st.caption(f"ขับเคลื่อนด้วย RAG (ChromaDB + {provider['label']} · {AI_MODEL})")
 
+# รูปประจำตัวในแชต (ใช้ Material icon ของ Streamlit)
+AVATARS = {"assistant": ":material/balance:", "user": ":material/person:"}
+
 # 7. Render Conversation History
 for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
+    with st.chat_message(msg["role"], avatar=AVATARS.get(msg["role"])):
         if msg.get("error"):
             st.error(msg["content"])
         else:
@@ -323,7 +326,7 @@ if user_query := st.chat_input("พิมพ์คำถามภาษี เ�
     # Append & display User message
     st.session_state.messages.append({"role": "user", "content": user_query})
     save_chat_history(st.session_state.messages)
-    with st.chat_message("user"):
+    with st.chat_message("user", avatar=AVATARS["user"]):
         st.markdown(user_query)
 
     # ประวัติก่อนคำถามปัจจุบัน (ไม่รวมข้อความแจ้งข้อผิดพลาด)
@@ -333,7 +336,7 @@ if user_query := st.chat_input("พิมพ์คำถามภาษี เ�
     ]
 
     # Assistant Response
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar=AVATARS["assistant"]):
         if total_chunks == 0:
             st.info("💡 หมายเหตุ: ฐานข้อมูล ChromaDB ยังไม่มีเอกสาร (กำลังให้คำปรึกษาตามหลักการภาษีทั่วไป)")
 
