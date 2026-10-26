@@ -35,3 +35,6 @@ eval_questions.md
 rag_eval_report.json
 pdf_retrieve.py
 HANDOVER_ANTIGRAVITY.md
+# สไลด์นำเสนอและไฟล์ที่ export มาวางในโฟลเดอร์หลัก
+/*.pdf
+/*.pptx
