@@ -303,7 +303,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = load_chat_history()
 
 # 6. Main UI Header
-st.title("⚖️ ระบบสืบค้นและตอบคำถามกฎหมายภาษีอากร")
+st.title("⚖️ ระบบสืบค้นและตอบคำถามกฎหมายภาษีเงินได้บุคคลธรรมดา")
 st.caption(f"ขับเคลื่อนด้วย RAG (ChromaDB + {provider['label']} · {AI_MODEL})")
 
 # รูปประจำตัวในแชต (ใช้ Material icon ของ Streamlit)
